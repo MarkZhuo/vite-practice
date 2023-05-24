@@ -1,24 +1,47 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import blankLayout from '@/layout/basic-layout.vue';
+import basicLayout from '@/layout/basic-layout.vue';
+import notFound from '@/views/404/index.vue';
+import Login from '@/views/login/index.vue';
 
 // noinspection TypeScriptValidateTypes
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: HomeView
+      name: 'blank-layout',
+      component: blankLayout,
+      children: [
+        {
+          path: '/:pathMatch(.*)',
+          name: 'notFound',
+          component: notFound,
+          meta: {
+            layout: 'blank-layout'
+          }
+        }
+      ]
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      name: 'basic-layout',
+      component: basicLayout,
+      children: [
+        {
+          path: '/login',
+          name: 'Login',
+          component: Login,
+          meta: {
+            layout: 'basic-layout'
+          }
+        }
+      ]
     }
   ]
-})
+});
 
-export default router
+router.beforeEach((to, from, next) => {
+  if (to.name !== 'Login' && !localStorage.getItem('token')) next({ name: 'Login' });
+  else next();
+});
+
+export default router;
