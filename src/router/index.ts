@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import blankLayout from '@/layout/basic-layout.vue';
-import basicLayout from '@/layout/basic-layout.vue';
-import notFound from '@/views/404/index.vue';
-import Login from '@/views/login/index.vue';
+const blankLayout = import('@/layout/blank-layout.vue');
+const basicLayout = import('@/layout/basic-layout.vue');
+const notFound = import('@/views/404/index.vue');
+const Login = import('@/views/login/index.vue');
 
 // noinspection TypeScriptValidateTypes
 const router = createRouter({
