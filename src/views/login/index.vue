@@ -1,14 +1,7 @@
-<script setup lang="ts">
-import Child from '@/views/login/child.vue';
-import Child2 from '@/views/login/child2.vue';
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <div class="login">
-    <h1>pinia</h1>
-    <Child />
-    <Child2 />
-  </div>
+  <div class="login"></div>
 </template>
 
 <style lang="scss" scoped>
