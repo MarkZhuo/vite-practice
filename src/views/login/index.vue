@@ -1,16 +1,13 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import request from '@/api/request';
+</script>
 
 <template>
-  <div class="login"></div>
+  <div class="login">hello world</div>
 </template>
 
 <style lang="scss" scoped>
 .login {
-  //width: 100%;
-  //height: 100%;
-  width: 800px;
-  height: 600px;
-  margin: 0 auto;
-  background: skyblue;
+  color: $base-color;
 }
 </style>

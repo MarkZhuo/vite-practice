@@ -28,6 +28,15 @@ export default defineConfig(({ command }) => {
       },
       extensions: ['.js', '.ts', '.vue', '.json']
     },
+    // scss全局变量配置
+    css: {
+      preprocessorOptions: {
+        scss: {
+          javascriptEnabled: true,
+          additionalData: '@import "./src/styles/variable.scss";'
+        }
+      }
+    },
     server: {
       port: 8001
     }
