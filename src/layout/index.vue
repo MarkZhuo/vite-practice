@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import Logo from './logo/index';
-import Menu from './menu/index';
+import { useRoute } from 'vue-router';
+import Logo from './logo/index.vue';
+import Menu from './menu/index.vue';
+import Main from './main/index.vue';
 import userStore from '@/stores/modules/user';
 
 const useStore = userStore();
+const $route = useRoute();
 </script>
 
 <template>
@@ -11,11 +14,20 @@ const useStore = userStore();
     <div class="layout_slider">
       <Logo />
       <el-scrollbar class="scrollbar">
-        <Menu :menuList="useStore.menusRoutes" />
+        <el-menu
+          background-color="$base_menu_background"
+          text-color="#ffffff"
+          :router="true"
+          :default-active="$route.path"
+        >
+          <Menu :menuList="useStore.menusRoutes" />
+        </el-menu>
       </el-scrollbar>
     </div>
     <div class="layout_tabbar"></div>
-    <div class="layout_main"></div>
+    <div class="layout_main">
+      <Main />
+    </div>
   </div>
 </template>
 
