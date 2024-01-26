@@ -1,17 +1,41 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+defineProps(['menuList']);
+</script>
+
+<script lang="ts">
+export default {
+  name: 'Menu'
+};
+</script>
 
 <template>
   <el-menu background-color="$base_menu_background" text-color="#ffffff">
-    <el-menu-item index="1">首页</el-menu-item>
-    <el-menu-item index="2">数据大屏</el-menu-item>
-    <el-sub-menu index="3">
-      <template #title>
-        <span>权限管理</span>
-      </template>
-      <el-menu-item index="3-1">用户管理</el-menu-item>
-      <el-menu-item index="3-2">角色管理</el-menu-item>
-      <el-menu-item index="3-2">菜单管理</el-menu-item>
-    </el-sub-menu>
+    <template v-for="(item, index) in menuList" :key="item.path">
+      <el-menu-item v-if="!item.children && !item.meta.hidden" :index="item.path">
+        <template #title>
+          <span>图标</span>
+          <span>{{ item?.meta?.title }}</span>
+        </template>
+      </el-menu-item>
+      <el-menu-item
+        v-if="item.children && item.children.length === 1 && !item.children[0].meta.hidden"
+        :index="item.children[0].path"
+      >
+        <template #title>
+          <span>图标</span>
+          <span>{{ item.children[0].meta?.title }}</span>
+        </template>
+      </el-menu-item>
+      <el-sub-menu
+        v-if="item.children && item.children.length > 1 && !item.meta.hidden"
+        :index="item.path"
+      >
+        <template #title>
+          <span>{{ item.meta?.title }}</span>
+        </template>
+        <Menu :menuList="item.children"></Menu>
+      </el-sub-menu>
+    </template>
   </el-menu>
 </template>
 

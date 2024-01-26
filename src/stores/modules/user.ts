@@ -3,12 +3,14 @@ import { reqLogin } from '@/api/user';
 import type { loginForm, loginResponseData } from '@/api/user/type';
 import type { userState } from './types/types';
 import { SET_TOKEN, GET_TOKEN } from '@/utils/token';
+import { constantRoute } from '@/router/routers';
 
 const userStore = defineStore('user', {
   // 存储数据
   state: (): userState => {
     return {
-      token: GET_TOKEN()
+      token: GET_TOKEN(),
+      menusRoutes: constantRoute
     };
   },
   actions: {

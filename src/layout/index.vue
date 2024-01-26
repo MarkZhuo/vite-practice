@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import Logo from './logo/index';
 import Menu from './menu/index';
+import userStore from '@/stores/modules/user';
+
+const useStore = userStore();
 </script>
 
 <template>
@@ -8,7 +11,7 @@ import Menu from './menu/index';
     <div class="layout_slider">
       <Logo />
       <el-scrollbar class="scrollbar">
-        <Menu />
+        <Menu :menuList="useStore.menusRoutes" />
       </el-scrollbar>
     </div>
     <div class="layout_tabbar"></div>
@@ -28,6 +31,9 @@ import Menu from './menu/index';
     .scrollbar {
       width: 100%;
       height: calc(100vh - $base_menu_logo_height);
+      .el-menu {
+        border-right: none;
+      }
     }
   }
   .layout_tabbar {
