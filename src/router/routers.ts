@@ -5,7 +5,8 @@ export const constantRoute = [
     name: 'Layout',
     meta: {
       title: 'layout',
-      hidden: false
+      hidden: false,
+      icon: ''
     },
     children: [
       {
@@ -13,7 +14,8 @@ export const constantRoute = [
         component: () => import('@/views/home/index.vue'),
         meta: {
           title: '首页',
-          hidden: false
+          hidden: false,
+          icon: 'HomeFilled'
         }
       }
     ]
@@ -24,7 +26,8 @@ export const constantRoute = [
     component: () => import('@/views/login/index.vue'),
     meta: {
       title: '登录',
-      hidden: true
+      hidden: true,
+      icon: ''
     }
   },
   {
@@ -33,7 +36,8 @@ export const constantRoute = [
     component: () => import('@/views/404/index.vue'),
     meta: {
       title: '404',
-      hidden: true
+      hidden: true,
+      icon: ''
     }
   },
   {
@@ -42,7 +46,8 @@ export const constantRoute = [
     redirect: '/404',
     meta: {
       title: 'Any',
-      hidden: true
+      hidden: true,
+      icon: ''
     }
   }
 ];
