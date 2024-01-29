@@ -3,6 +3,7 @@ import { useRoute } from 'vue-router';
 import Logo from './logo/index.vue';
 import Menu from './menu/index.vue';
 import Main from './main/index.vue';
+import Tabbar from './tabbar/index.vue';
 import userStore from '@/stores/modules/user';
 
 const useStore = userStore();
@@ -24,7 +25,9 @@ const $route = useRoute();
         </el-menu>
       </el-scrollbar>
     </div>
-    <div class="layout_tabbar"></div>
+    <div class="layout_tabbar">
+      <Tabbar />
+    </div>
     <div class="layout_main">
       <Main />
     </div>
