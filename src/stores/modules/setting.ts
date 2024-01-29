@@ -3,7 +3,8 @@ import { defineStore } from 'pinia';
 const useLayoutSettingStore = defineStore('settingStore', {
   state: () => {
     return {
-      fold: false
+      fold: false,
+      refresh: false
     };
   }
 });

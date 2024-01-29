@@ -1,10 +1,17 @@
 <script setup lang="ts">
 import { Refresh, FullScreen } from '@element-plus/icons-vue';
 import setting from '../../../../setting';
+import useLayoutSettingStore from '@/stores/modules/setting';
+
+const layoutSettingStore = useLayoutSettingStore();
+
+const updateRefresh = () => {
+  layoutSettingStore.refresh = true;
+};
 </script>
 
 <template>
-  <el-button circle size="small" :icon="Refresh" @click="updateRefsh" />
+  <el-button circle size="small" :icon="Refresh" @click="updateRefresh" />
   <el-button circle size="small" :icon="FullScreen" @click="fullScreen" />
   <el-popover placement="bottom" title="主题设置" :width="200" trigger="hover">
     <el-form>
