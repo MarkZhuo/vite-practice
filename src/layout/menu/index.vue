@@ -33,10 +33,10 @@ export default {
       v-if="item.children && item.children.length > 1 && !item.meta.hidden"
       :index="item.path"
     >
-      <el-icon>
-        <component :is="item.meta.icon"></component>
-      </el-icon>
       <template #title>
+        <el-icon>
+          <component :is="item.meta.icon"></component>
+        </el-icon>
         <span>{{ item.meta?.title }}</span>
       </template>
       <Menu :menuList="item.children"></Menu>
