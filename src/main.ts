@@ -8,6 +8,7 @@ import './styles/global.scss';
 import 'virtual:svg-icons-register';
 import globalComponents from '@/components';
 import pinia from './stores';
+import './permission';
 
 const app = createApp(App);
 

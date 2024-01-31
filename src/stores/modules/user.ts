@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { reqLogin, reqUserInfo } from '@/api/user';
 import type { loginForm, loginResponseData } from '@/api/user/type';
 import type { userState } from './types/types';
-import { SET_TOKEN, GET_TOKEN } from '@/utils/token';
+import { SET_TOKEN, GET_TOKEN, REMOVE_TOKEN } from '@/utils/token';
 import { constantRoute } from '@/router/routers';
 
 const userStore = defineStore('user', {
@@ -33,6 +33,12 @@ const userStore = defineStore('user', {
         this.avatar = result.data.checkUser.avatar;
       } else {
       }
+    },
+    userLogout() {
+      this.token = '';
+      this.avatar = '';
+      this.userName = '';
+      REMOVE_TOKEN();
     }
   },
   getters: {}

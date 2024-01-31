@@ -3,9 +3,13 @@ import { Refresh, FullScreen, Setting } from '@element-plus/icons-vue';
 import setting from '../../../../setting';
 import useLayoutSettingStore from '@/stores/modules/setting';
 import userStore from '@/stores/modules/user';
+import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 const layoutSettingStore = useLayoutSettingStore();
 const useUserStore = userStore();
+const $router = useRouter();
+const $route = useRoute();
 
 const updateRefresh = () => {
   layoutSettingStore.refresh = true;
@@ -18,6 +22,11 @@ const fullScreen = () => {
   } else {
     document.exitFullscreen();
   }
+};
+
+const logout = () => {
+  useUserStore.userLogout();
+  $router.push({ path: '/login', query: { redirect: $route.path } });
 };
 </script>
 
@@ -48,7 +57,7 @@ const fullScreen = () => {
     </span>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item>退出登录</el-dropdown-item>
+        <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>

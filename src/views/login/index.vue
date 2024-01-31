@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { User, Lock } from '@element-plus/icons-vue';
 import userStore from '@/stores/modules/user';
 import { ElNotification } from 'element-plus';
@@ -19,6 +20,7 @@ const loginForm = reactive<LoginForm>({
 const useStore = userStore();
 const loading = ref<boolean>(false);
 const $router = useRouter();
+const $route = useRoute();
 const rules = reactive<FormRules<LoginForm>>({
   username: [
     { required: true, message: '用户名不能为空', trigger: 'blur' },
@@ -45,7 +47,8 @@ const login = async (formEl: FormInstance | undefined) => {
           type: 'success'
         });
         loading.value = false;
-        $router.push('/');
+        const redirect: any = $route.query.redirect;
+        $router.push({ path: redirect || '/' });
       } catch (error) {
         ElNotification({
           message: (error as Error).message,
