@@ -1,12 +1,23 @@
 <script setup lang="ts">
-import { Refresh, FullScreen } from '@element-plus/icons-vue';
+import { Refresh, FullScreen, Setting } from '@element-plus/icons-vue';
 import setting from '../../../../setting';
 import useLayoutSettingStore from '@/stores/modules/setting';
+import userStore from '@/stores/modules/user';
 
 const layoutSettingStore = useLayoutSettingStore();
+const useUserStore = userStore();
 
 const updateRefresh = () => {
   layoutSettingStore.refresh = true;
+};
+
+const fullScreen = () => {
+  let full = document.fullscreenElement;
+  if (!full) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
 };
 </script>
 
@@ -27,9 +38,10 @@ const updateRefresh = () => {
     </template>
   </el-popover>
 
-  <img :src="setting.logo" />
+  <img :src="useUserStore.avatar" />
   <el-dropdown>
     <span class="el-dropdown-link" style="cursor: pointer">
+      {{ useUserStore.userName }}
       <el-icon class="el-icon--right">
         <arrow-down />
       </el-icon>
