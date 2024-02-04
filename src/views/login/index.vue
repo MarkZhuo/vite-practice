@@ -35,30 +35,48 @@ const rules = reactive<FormRules<LoginForm>>({
 const ruleFormRef = ref<FormInstance>();
 
 const login = async (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  await formEl.validate(async (valid, fields) => {
-    if (valid) {
-      loading.value = true;
-      try {
-        const result = await useStore.userLogin(loginForm);
-        ElNotification({
-          title: `Hi, ${getTime()}好`,
-          message: '登录成功！',
-          type: 'success'
-        });
-        loading.value = false;
-        const redirect: any = $route.query.redirect;
-        $router.push({ path: redirect || '/' });
-      } catch (error) {
-        ElNotification({
-          message: (error as Error).message,
-          type: 'error'
-        });
-      }
-    } else {
-      console.log('error submit!', fields);
-    }
-  });
+  await ruleFormRef.value.validate();
+  loading.value = true;
+  try {
+    await useStore.userLogin(loginForm);
+    const redirect: any = $route.query.redirect;
+    $router.push({ path: redirect || '/' });
+    ElNotification({
+      title: `Hi, ${getTime()}好`,
+      message: '登录成功！',
+      type: 'success'
+    });
+    loading.value = false;
+  } catch (error) {
+    ElNotification({
+      message: (error as Error).message,
+      type: 'error'
+    });
+  }
+  // if (!formEl) return;
+  // await formEl.validate(async (valid, fields) => {
+  //   if (valid) {
+  //     loading.value = true;
+  //     try {
+  //       await useStore.userLogin(loginForm);
+  //       const redirect: any = $route.query.redirect;
+  //       $router.push({ path: redirect || '/' });
+  //       ElNotification({
+  //         title: `Hi, ${getTime()}好`,
+  //         message: '登录成功！',
+  //         type: 'success'
+  //       });
+  //       loading.value = false;
+  //     } catch (error) {
+  //       ElNotification({
+  //         message: (error as Error).message,
+  //         type: 'error'
+  //       });
+  //     }
+  //   } else {
+  //     console.log('error submit!', fields);
+  //   }
+  // });
 };
 </script>
 

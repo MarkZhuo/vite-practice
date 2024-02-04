@@ -1,5 +1,4 @@
 import { createApp } from 'vue';
-import { createPinia } from 'pinia';
 import App from './App.vue';
 import router from './router';
 import ElementPlus from 'element-plus';
@@ -12,4 +11,4 @@ import './permission';
 
 const app = createApp(App);
 
-app.use(pinia).use(ElementPlus).use(createPinia()).use(router).use(globalComponents).mount('#app');
+app.use(ElementPlus).use(router).use(pinia).use(globalComponents).mount('#app');

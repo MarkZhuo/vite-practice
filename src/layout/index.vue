@@ -14,7 +14,7 @@ const $route = useRoute();
 
 <template>
   <div class="layout">
-    <div class="layout_slider" :class="{ fold: layoutSettingStore.fold }">
+    <div class="layout_slider">
       <Logo />
       <el-scrollbar class="scrollbar">
         <el-menu
@@ -54,9 +54,6 @@ const $route = useRoute();
         border-right: none;
       }
     }
-    &.fold {
-      width: $base_menu_min_width;
-    }
   }
   .layout_tabbar {
     position: fixed;
@@ -65,6 +62,7 @@ const $route = useRoute();
     width: calc(100% - $base_menu_width);
     height: $base_tabbar_height;
     transition: all 0.3s;
+    background: #ffffff;
     &.fold {
       left: $base_menu_min_width;
       width: calc(100vw - $base_menu_min_width);
@@ -78,6 +76,7 @@ const $route = useRoute();
     height: calc(100vh - $base_tabbar_height);
     padding: 20px;
     transition: all 0.3s;
+    background: #ffffff;
     &.fold {
       left: $base_menu_min_width;
       width: calc(100vw - $base_menu_min_width);
