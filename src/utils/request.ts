@@ -5,7 +5,7 @@ import userStore from '@/stores/modules/user';
 
 // 1、创建axios实例对象
 const request = axios.create({
-  baseURL: '/api', // 基础路径
+  baseURL: import.meta.env.VITE_APP_BASE_API, // 基础路径
   timeout: 10000 // 设置超长时间
 });
 

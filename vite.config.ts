@@ -1,14 +1,15 @@
 import { fileURLToPath, URL } from 'node:url';
 import path from 'path';
 
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { viteMockServe } from 'vite-plugin-mock';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command }) => {
+export default defineConfig(({ command, mode }) => {
+  const env = loadEnv(mode, process.cwd());
   return {
     plugins: [
       vue(),
@@ -38,7 +39,14 @@ export default defineConfig(({ command }) => {
       }
     },
     server: {
-      port: 8001
+      port: 8001,
+      proxy: {
+        [env.VITE_APP_BASE_API]: {
+          target: env.VITE_SERVE,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, '')
+        }
+      }
     }
   };
 });

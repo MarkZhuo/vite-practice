@@ -15,7 +15,7 @@ interface LoginForm {
 
 const loginForm = reactive<LoginForm>({
   username: 'admin',
-  password: '123456'
+  password: '111111'
 });
 const useStore = userStore();
 const loading = ref<boolean>(false);
