@@ -1,8 +1,26 @@
-import request from '@/utils/request';
-
-enum API {
-  TRADEMARK_URL = '/admin/product/baseTrademark/'
+export interface ResponseData {
+  code: number;
+  message: string;
+  ok: boolean;
 }
 
-export const reqHasTrademark = (currentPage: number, pageSize: number) =>
-  request.get<any, any>(API.TRADEMARK_URL + `${currentPage}/${pageSize}`);
+export interface TradeMark {
+  id?: number;
+  tmName: string;
+  logoUrl: string;
+}
+
+// 包含全部品牌数据的Ts类型
+export type Records = TradeMark[];
+
+// 获取的已有全部品牌数据的Ts类型
+export interface TradeMarkResponseData extends ResponseData {
+  data: {
+    records: Records;
+    total: number;
+    size: number;
+    current: number;
+    searchCount: boolean;
+    page: number;
+  };
+}
