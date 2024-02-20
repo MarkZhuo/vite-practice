@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, reactive } from 'vue';
+import { ref, onMounted, reactive, nextTick } from 'vue';
 import { reqHasTrademark, reqAddOrUpdateTradeMark } from '@/api/product/trademark';
 import type { Records, TradeMarkResponseData, TradeMark } from '@/api/product/trademark/type';
 import { ElMessage, type UploadProps } from 'element-plus';
@@ -14,6 +14,7 @@ const tradeMarkParams = reactive<TradeMark>({
   tmName: '',
   logoUrl: ''
 });
+const formRef = ref();
 
 onMounted(() => {
   getHasTrademark();
@@ -37,11 +38,17 @@ const addTradeMark = () => {
   Object.keys(tradeMarkParams).forEach((o) => {
     tradeMarkParams[o] = '';
   });
+  nextTick(() => {
+    formRef.value.clearValidate('tmName');
+    formRef.value.clearValidate('logoUrl');
+  });
 };
 
 const updateTradeMark = (row: TradeMark) => {
   dialogFormVisible.value = true;
   Object.assign(tradeMarkParams, row);
+  formRef.value.clearValidate('tmName');
+  formRef.value.clearValidate('logoUrl');
 };
 
 const cancel = () => {
@@ -49,6 +56,7 @@ const cancel = () => {
 };
 
 const confirm = async () => {
+  await formRef.value.validate();
   const result: any = await reqAddOrUpdateTradeMark(tradeMarkParams);
   if (result.code === 200) {
     ElMessage({
@@ -96,6 +104,36 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
 
 const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
   tradeMarkParams.logoUrl = response.data;
+  formRef.value.clearValidate('logoUrl');
+};
+
+const rules = {
+  tmName: [
+    {
+      required: true,
+      trigger: 'blur',
+      validator: (rule: any, value: any, callBack: any) => {
+        if (value.trim().length >= 2) {
+          callBack();
+        } else {
+          callBack(new Error('品牌名称字数大于等于2位'));
+        }
+      }
+    }
+  ],
+  logoUrl: [
+    {
+      required: true,
+      trigger: 'change',
+      validator: (rule: any, value: any, callBack: any) => {
+        if (value) {
+          callBack();
+        } else {
+          callBack(new Error('Logo图片务必上传'));
+        }
+      }
+    }
+  ]
 };
 </script>
 
@@ -138,11 +176,17 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => 
       />
     </el-card>
     <el-dialog v-model="dialogFormVisible" :title="`${tradeMarkParams?.id ? '修改' : '添加'}品牌`">
-      <el-form style="width: 80%" label-width="100px">
-        <el-form-item label="品牌名称">
+      <el-form
+        style="width: 80%"
+        label-width="100px"
+        :model="tradeMarkParams"
+        :rules="rules"
+        ref="formRef"
+      >
+        <el-form-item label="品牌名称" prop="tmName">
           <el-input v-model="tradeMarkParams.tmName" placeholder="请输入品牌名称" />
         </el-form-item>
-        <el-form-item label="品牌LOGO">
+        <el-form-item label="品牌LOGO" prop="logoUrl">
           <el-upload
             class="avatar-uploader"
             action="/api/admin/product/fileUpload"
