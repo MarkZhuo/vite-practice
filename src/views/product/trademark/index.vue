@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted, reactive, nextTick } from 'vue';
-import { reqHasTrademark, reqAddOrUpdateTradeMark } from '@/api/product/trademark';
+import {
+  reqHasTrademark,
+  reqAddOrUpdateTradeMark,
+  reqDeleteTradeMark
+} from '@/api/product/trademark';
 import type { Records, TradeMarkResponseData, TradeMark } from '@/api/product/trademark/type';
 import { ElMessage, type UploadProps } from 'element-plus';
 
@@ -135,6 +139,22 @@ const rules = {
     }
   ]
 };
+
+const removeTradeMark = async (id: number) => {
+  const result = await reqDeleteTradeMark(id);
+  if (result.code == 200) {
+    ElMessage({
+      type: 'success',
+      message: '删除品牌成功'
+    });
+    await getHasTrademark();
+  } else {
+    ElMessage({
+      type: 'error',
+      message: '删除品牌失败'
+    });
+  }
+};
 </script>
 
 <template>
@@ -159,7 +179,16 @@ const rules = {
               icon="Edit"
               @click="updateTradeMark(row)"
             ></el-button>
-            <el-button type="primary" size="small" icon="Delete"></el-button>
+            <el-popconfirm
+              :title="`您确定要删除${row.tmName}么？`"
+              width="250px"
+              icon="Delete"
+              @confirm="removeTradeMark(row.id)"
+            >
+              <template #reference>
+                <el-button type="primary" size="small" icon="Delete"></el-button>
+              </template>
+            </el-popconfirm>
           </template>
         </el-table-column>
       </el-table>

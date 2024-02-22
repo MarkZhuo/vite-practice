@@ -4,7 +4,8 @@ import type { TradeMarkResponseData, TradeMark } from '@/api/product/trademark/t
 enum API {
   TRADEMARK_URL = '/admin/product/baseTrademark/',
   ADD_TRADEMARK_URL = '/admin/product/baseTrademark/save',
-  UPDATE_TRADEMARK_URL = '/admin/product/baseTrademark/update'
+  UPDATE_TRADEMARK_URL = '/admin/product/baseTrademark/update',
+  DELETE_URL = '/admin/product/baseTrademark/remove/'
 }
 
 export const reqHasTrademark = (currentPage: number, pageSize: number) =>
@@ -17,3 +18,5 @@ export const reqAddOrUpdateTradeMark = (data: TradeMark) => {
     return request.post<any, any>(API.ADD_TRADEMARK_URL, data);
   }
 };
+
+export const reqDeleteTradeMark = (id: string) => request.delete<any, any>(API.DELETE_URL + id);
